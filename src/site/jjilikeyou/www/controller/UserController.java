@@ -24,7 +24,7 @@ public class UserController {
 		System.out.println(username);
 		User user=userSerivce.checkName(username);
 		System.out.println(user);
-		if (user!=null) {
+		if (user==null) {
 			doResponse(response, "true");
 		}else {
 			doResponse(response, "false");

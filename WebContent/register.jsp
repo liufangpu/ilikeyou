@@ -67,7 +67,7 @@ function loadXMLDoc() {
     		success:function(data) {
                 if (data=='true') {
                    test.setAttribute("class", "icon ticker"); 
-                }else {
+                }else if(data=='false'){
                     test.setAttribute("class", "icon into");
                 }
     		}

@@ -28,7 +28,7 @@
 	
 	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://localhost:3306/mytest?useUnicode=true&amp;characterEncoding=utf8"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf8"/>
 		<property name="username" value="root" />
 		<property name="password" value="1234" />
 	</bean>
@@ -36,12 +36,12 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:MybatisConf.xml"/>
-		<property name="mapperLocations" value="classpath:site/jjilikeyou/www/**/*Mapper.xml" />
+		<property name="mapperLocations" value="classpath:site/jjilikeyou/www/dao/*Mapper.xml" />
 	</bean>
 	
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="site.jjilikeyou.www"/>
-		<property name="annotationClass" value="org.springframework.stereotype.Repository"/>
+		<property name="basePackage" value="site.jjilikeyou.www.dao"/>
+		<!-- <property name="annotationClass" value="org.springframework.stereotype.Repository"/> -->
 	</bean>
 	
 	
