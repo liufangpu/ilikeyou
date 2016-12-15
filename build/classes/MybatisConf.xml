@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="site.jjilikeyou.www.pojo.User" alias="User"/>
+		<typeAlias type="site.jjilikeyou.www.model.CustomerModel" alias="CM"/>
+		<typeAlias type="site.jjilikeyou.www.model.CustomerQueryModel" alias="CQM"/>
+	</typeAliases>
+	
+	
+	<plugins>
+		<plugin interceptor="site.jjilikeyou.www.util.PagePlugin">
+			<property name="dialect" 	value="mysql"/>
+			<property name="pageSqlId" 	value=".*Page.*"/>
+		</plugin>
+	</plugins>
+</configuration> 
