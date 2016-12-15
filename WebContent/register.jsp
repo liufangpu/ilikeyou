@@ -25,7 +25,7 @@
 						<div class="clear"> </div>
 					</li> 
 					<li>
-						<input type="text" id="email"  placeholder="Email" required/>
+						<input type="text" id="email"  placeholder="Email" required onblur="loadXMLDoc1();"/>
 						<a href="#" > </a>
 						<div class="clear"> </div>
 					</li> 
@@ -59,6 +59,23 @@
 <script type="text/javascript">
 function loadXMLDoc() {
 	var username=document.getElementById("username").value;
+	var test=document.getElementById("test");
+    	$.ajax({
+    		type:"post",
+    		url:'<c:url value="/user/checkName" />',
+    		data:{"username":username},
+    		success:function(data) {
+                if (data=='true') {
+                   test.setAttribute("class", "icon ticker"); 
+                }else {
+                    test.setAttribute("class", "icon into");
+                }
+    		}
+           
+        });
+}
+function loadXMLDoc1() {
+	var username=document.getElementById("username").value;
     	$.ajax({
     		type:"post",
     		url:'<c:url value="/user/checkName" />',
@@ -76,5 +93,7 @@ function loadXMLDoc() {
            
         });
 }
+
+
 </script>
 </html>

@@ -5,21 +5,30 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import site.jjilikeyou.www.pojo.User;
+import site.jjilikeyou.www.service.UserService;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	
+	@Autowired
+	private UserService userSerivce;
 	
 	@RequestMapping("/checkName")
 	public void checkUsername(@RequestParam("username")String username,HttpServletResponse response){
-		System.out.println("hahahaha");
 		System.out.println(username);
-		doResponse(response, "true");
-		
+		User user=userSerivce.checkName(username);
+		System.out.println(user);
+		if (user!=null) {
+			doResponse(response, "true");
+		}else {
+			doResponse(response, "false");
+		}
 	}
 	
 	public static void doResponse(HttpServletResponse response,Object object){
