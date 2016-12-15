@@ -30,7 +30,14 @@ public class UserController {
 			doResponse(response, "false");
 		}
 	}
-	
+	@RequestMapping("/addUser")
+	public String addUser(@RequestParam("username") String username,@RequestParam("password")String password,@RequestParam("email")String email){
+		System.out.println(username);
+		User user=new User(username, password, email);
+		int i=userSerivce.addUser(user);
+		System.out.println(i);
+		return "success";
+	}
 	public static void doResponse(HttpServletResponse response,Object object){
 		response.setCharacterEncoding("utf-8");
 		

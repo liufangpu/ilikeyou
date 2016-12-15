@@ -15,5 +15,10 @@ public class UserServiceImpl implements UserService {
 		User user=userDao.checkName(username);
 		return user;
 	}
+	@Override
+	public int addUser(User user) {
+		int i=userDao.addUser(user);
+		return i;
+	}
 
 }

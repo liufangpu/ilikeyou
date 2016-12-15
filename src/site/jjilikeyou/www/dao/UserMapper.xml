@@ -5,6 +5,9 @@
 		select * from user where 
 		username=#{username}
 	</select>
+	<insert id="addUser">
+		insert into user(username,password,email) values(#{username},#{password},#{email})
+	</insert>
 	<!-- 
      <insert id="create" parameterType="CM">
      	insert into tbl_customer (customerId,pwd,showName,trueName,registerTime) 

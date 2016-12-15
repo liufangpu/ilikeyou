@@ -5,6 +5,19 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
+	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public User(String username, String password, String email) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.email = email;
+	}
+
 	public Integer getId() {
 		return id;
 	}
