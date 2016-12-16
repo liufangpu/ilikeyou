@@ -10,7 +10,7 @@
 	</insert>
 	
 	<select id="login" resultType="User">
-		select id from user where username=#{username} and password=#{password}
+		select * from user where username=#{username} and password=#{password}
 	</select>
 	<!-- 
      <insert id="create" parameterType="CM">

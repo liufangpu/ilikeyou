@@ -21,23 +21,26 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.servlet.http.HttpSession;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import site.jjilikeyou.www.Controller.HTMLFilter;
+import site.jjilikeyou.www.websocket.GetHttpSessionConfigurator;
 
-@ServerEndpoint(value = "/websocket/chat")
+@ServerEndpoint(value = "/websocket/chat/{username}",configurator=GetHttpSessionConfigurator.class)
 public class ChatAnnotation {
 
     private static final Log log = LogFactory.getLog(ChatAnnotation.class);
-
     private static final String GUEST_PREFIX = "聊客";
     private static final AtomicInteger connectionIds = new AtomicInteger(0);
     private static final Set<ChatAnnotation> connections =
@@ -52,28 +55,33 @@ public class ChatAnnotation {
 
 
     @OnOpen
-    public void start(Session session) {
+    public void start(@PathParam("username")String username,Session session,EndpointConfig config) {
+    	//注释部分为获取httpsession的方法，需要创建一个类，先在用的直接从页面上传参数的方法
+//    	HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+//        User user = (User) httpSession.getAttribute("user");
+//        String username = user.getUsername();
+
         this.session = session;
         connections.add(this);
-        String message = String.format("* %s %s", nickname, "has joined.");
+        //String message = String.format("* %s %s", nickname, "has joined.");
+        String message = String.format("* %s %s", username, "has joined.");
         broadcast(message);
     }
 
 
     @OnClose
-    public void end() {
+    public void end(@PathParam("username")String username) {
         connections.remove(this);
         String message = String.format("* %s %s",
-                nickname, "has disconnected.");
+                username, "has disconnected.");
         broadcast(message);
     }
 
 
     @OnMessage
-    public void incoming(String message) {
-        // Never trust the client
+    public void incoming(String message,@PathParam("username")String username) {
         String filteredMessage = String.format("%s: %s",
-                nickname, HTMLFilter.filter(message.toString()));
+                username, HTMLFilter.filter(message.toString()));
         broadcast(filteredMessage);
     }
 

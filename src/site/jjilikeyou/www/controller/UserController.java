@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,20 +45,14 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login")
-	public String login(HttpServletResponse response,@RequestParam("username")String username,@RequestParam("password")String password){
-		System.out.println("hahahahah");
+	public String login(HttpSession session,HttpServletResponse response,@RequestParam("username")String username,@RequestParam("password")String password){
 		User user=new User();
 		user.setUsername(username);
 		user.setPassword(password);
 		User user2=userSerivce.login(user);
-//		if (user2!=null) {
-//			doResponse(response, "true");
-//		}else{
-//			doResponse(response, "false");
-//		}
-		
+		session.setAttribute("user", user2);
 		if (user2!=null) {
-			return "redirect:/chat.html";
+			return "redirect:/chat.html?username="+username;
 		}else {
 			return "redirect:/index.html";
 		}
