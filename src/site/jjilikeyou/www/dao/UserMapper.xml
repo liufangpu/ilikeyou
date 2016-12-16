@@ -8,6 +8,10 @@
 	<insert id="addUser">
 		insert into user(username,password,email) values(#{username},#{password},#{email})
 	</insert>
+	
+	<select id="login" resultType="User">
+		select id from user where username=#{username} and password=#{password}
+	</select>
 	<!-- 
      <insert id="create" parameterType="CM">
      	insert into tbl_customer (customerId,pwd,showName,trueName,registerTime) 

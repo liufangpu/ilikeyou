@@ -31,12 +31,36 @@ public class UserController {
 		}
 	}
 	@RequestMapping("/addUser")
-	public String addUser(@RequestParam("username") String username,@RequestParam("password")String password,@RequestParam("email")String email){
+	public void addUser(HttpServletResponse response,@RequestParam("username") String username,@RequestParam("password")String password,@RequestParam("email")String email){
 		System.out.println(username);
 		User user=new User(username, password, email);
 		int i=userSerivce.addUser(user);
-		System.out.println(i);
-		return "success";
+		System.out.println("cha"+i);
+		if (i>0) {
+			doResponse(response, "true");
+		}else {
+			doResponse(response, "false");
+		}
+	}
+	
+	@RequestMapping("/login")
+	public String login(HttpServletResponse response,@RequestParam("username")String username,@RequestParam("password")String password){
+		System.out.println("hahahahah");
+		User user=new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		User user2=userSerivce.login(user);
+//		if (user2!=null) {
+//			doResponse(response, "true");
+//		}else{
+//			doResponse(response, "false");
+//		}
+		
+		if (user2!=null) {
+			return "redirect:/chat.html";
+		}else {
+			return "redirect:/index.html";
+		}
 	}
 	public static void doResponse(HttpServletResponse response,Object object){
 		response.setCharacterEncoding("utf-8");

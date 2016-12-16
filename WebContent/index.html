@@ -1,44 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>Welcome</title>
+		<meta name="keywords" content="网站模板,手机网站模板,手机登录页面,登录页面HTML,免费网站模板下载" />
+		<meta name="description" content="JS代码网提供高质量手机网站模板下载" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE html>
-<html>	
-<head>
-<title>刘芳谱的第一个登录页面</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<meta name="keywords" content="User Login Form Responsive Templates, Iphone Widget Template, Smartphone login forms,Login form, Widget Template, Responsive Templates, a Ipad 404 Templates, Flat Responsive Templates" />
-<link href="./static/css/style.css" rel='stylesheet' type='text/css' />
-<!--web-fonts-->
-<!-- <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> -->
-<!--/web-fonts-->
-</head>
-<body>
-<!--User-Login-->
-<h1>User Login</h1>
-<div class="avtar">
-	<img src="./static/images/avtar.png" />
-</div>
-	<div class="login-form">
-		<p>新用户?<a href="register.jsp">点击注册!</a></p>
-			<form action="#">
-				<div class="form-text">
-					<input type="text" class="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'USERNAME';}" >
-					<input type="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
-				</div>
-					<input type="submit"value="GO" >
-			</form>
-	</div>
-<!--/User-Login-->
-<!--start-copyright-->
-<div class="copy-right">
-	<p>灿哥肉孜锋哥特哥快来&nbsp;&nbsp;&nbsp;&nbsp;<a href="chat.html">聊天入口</a></p>
-	<p><a href="talk.html">聊天入口2</a></p> 
-</div>
-<!--//end-copyright-->	
-</body>
+        <!-- CSS -->
+        <link rel="stylesheet" href="./assets/css/reset.css">
+        <link rel="stylesheet" href="./assets/css/supersized.css">
+        <link rel="stylesheet" href="./assets/css/style.css">
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+
+        <div class="page-container">
+            <h1>登录</h1>
+            <form id="myForm" action="/ilikeyou/user/login">
+                <input type="text" name="username" id="username" class="username" placeholder="用户名">
+                <input type="password" name="password" id="password" class="password" placeholder="密码">
+                <button type="submit">提交</button>
+                <div class="error"><span>+</span></div>
+            </form>
+            <div class="connect">
+                <p>新用户?点击注册</p>
+                <p>
+                    <a class="facebook" href="register.jsp"></a>
+                    <a class="twitter" href="register.jsp"></a>
+                </p>
+            </div>
+        </div>
+		
+        <!-- Javascript -->
+        <script src="./assets/js/jquery-1.8.2.min.js"></script>
+        <script src="./assets/js/supersized.3.2.7.min.js"></script>
+        <script src="./assets/js/supersized-init.js"></script>
+        <script src="./assets/js/scripts.js"></script>
+		<script type="text/javascript">
+		$("#submit").click(function (){
+			var username=document.getElementById("username").value;
+			var password=document.getElementById("password").value;
+			if(username!=''&&password!=''){
+				$.ajax({
+		            cache: true,
+		            type: "POST",
+		            url:'http://'+window.location.host + '/ilikeyou/user/login',
+		            data:$('#myForm').serialize(),
+		           // async: false,
+		             error: function(request) {
+		                alert("Connection error");
+		            },
+		            success: function(data) {
+		            	if(data=='true'){
+		            		alert("登录成功");
+		            	}else{
+		            		alert("登录失败");
+		            	}
+		            }
+		        });
+			}else{
+				return false;
+			}
+			
+		})
+		
+		
+		</script>
+    </body>
 </html>
+
+

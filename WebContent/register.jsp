@@ -21,17 +21,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<h1>Login or Create a Free Account!</h1>
 		</div>
 		<p>Welcome To Liufangpu's  Communication community！</p>
-			<form action="user/addUser" method="post">
+			<form id="myForm">
 				<ul class="left-form"  >
 					<h2>register a new account:</h2>
+					<input id="show" type="hidden" style="color: red"/>
 					<li>
-						<input type="text" name="username" id="username"  placeholder="username" required onblur="loadXMLDoc();"/>
-						<a href="#" id="test" > </a>
+						<input type="text" name="username" id="username"  placeholder="username"  required oninvalid="setCustomValidity('用户名不能为空');" oninput="setCustomValidity('');"  onblur="loadXMLDoc();"/>
+						<a href="javasrcipt:void(0);" id="test"  > </a>
+						
 						<div class="clear"> </div>
 					</li> 
 					<li>
-						<input type="text" name="email" id="email"  placeholder="Email" required onblur="loadXMLDoc1();"/>
-						<a href="#" > </a>
+						<input type="text" name="email" id="email"  placeholder="email" required oninvalid="setCustomValidity('邮箱不能为空');" onblur="loadXMLDoc1();"/>
+						<a href="javasrcipt:void(0);" id= "test2"> </a>
 						<div class="clear"> </div>
 					</li> 
 					<!-- <li>
@@ -40,17 +42,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="clear"> </div>
 					</li>  -->
 					<li>
-						<input type="password" name="password" id="password"  placeholder="输入密码" required/>
-						<a href="#" > </a>
+						<input type="password" name="password" id="password"  placeholder="输入密码,不小于6位字母或数字" required oninvalid="setCustomValidity('密码不能为空');" onblur="loadXMLDoc2();"/>
+						<a href="javasrcipt:void(0);" id="test3" > </a>
 						<div class="clear"> </div>
 					</li> 
 					<li>
-						<input type="password" id="password2"  placeholder="再输一遍" required/>
-						<a href="#" > </a>
+						<input type="password" id="password2"  placeholder="确认密码" required oninvalid="setCustomValidity('确认密码');" onblur="loadXMLDoc3();"/>
+						<a href="javasrcipt:void(0);" id="test4" > </a>
 						<div class="clear"> </div>
 					</li> 
 					<!-- <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i>我同意此协议</label> -->
-					<input type="submit" onclick="submit()" value="Create Account">
+					<input type="submit" id="submit"  value="Create Account">
 						<div class="clear"> </div>
 				</ul>
 				<div class="clear"> </div>
@@ -65,56 +67,117 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 function loadXMLDoc() {
 	var username=document.getElementById("username").value;
 	var test=document.getElementById("test");
-    	$.ajax({
+	var reg=/^([a-zA-Z0-9_\u4e00-\u9fa5]){3,16}$/;
+	if(reg.test(username)){
+		$.ajax({
     		type:"post",
     		url:'<c:url value="/user/checkName" />',
     		data:{"username":username},
     		success:function(data) {
                 if (data=='true') {
                    test.setAttribute("class", "icon ticker"); 
+                   document.getElementById("show").setAttribute("type", "hidden");
                 }else if(data=='false'){
                     test.setAttribute("class", "icon into");
+                    //alert("用户名已被占用！");
+                    document.getElementById("show").setAttribute("type", "text");
+                    document.getElementById("show").setAttribute("value", "用户名已被占用！");
                 }
     		}
            
         });
+	}else{
+		test.setAttribute("class", "icon into");
+		document.getElementById("show").setAttribute("type", "text");
+        document.getElementById("show").setAttribute("value", "用户名格式错误！");
+	}
 }
 function loadXMLDoc1() {
+	var email=document.getElementById("email").value;
+	var test=document.getElementById("test2");
+	var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+	if(reg.test(email)){
+		test.setAttribute("class", "icon ticker");
+		document.getElementById("show").setAttribute("type", "hidden");
+	}else{
+		document.getElementById("show").setAttribute("type", "text");
+		document.getElementById("show").setAttribute("value", "邮箱格式无效！");
+		test.setAttribute("class", "icon into");
+	}
+}
+function loadXMLDoc2() {
+	var password=document.getElementById("password").value;
+	var test=document.getElementById("test3");
+	var reg = /[a-zA-Z0-9]{6,16}/; 
+	if(reg.test(password)){
+		document.getElementById("show").setAttribute("type", "hidden");
+		test.setAttribute("class", "icon ticker");
+	}else{
+		document.getElementById("show").setAttribute("type", "text");
+		document.getElementById("show").setAttribute("value", "密码必须有数字和字母且不小于6位！");
+		test.setAttribute("class", "icon into");
+	}
+}
+
+function loadXMLDoc3() {
+	var password=document.getElementById("password").value;
+	var password2=document.getElementById("password2").value;
+	var test=document.getElementById("test4");
+	var reg = /[a-zA-Z0-9]{6,16}/; 
+	if(reg.test(password2)&&password==password2){
+		document.getElementById("show").setAttribute("type", "hidden");
+		test.setAttribute("class", "icon ticker");
+	}else{
+		document.getElementById("show").setAttribute("type", "text");
+		document.getElementById("show").setAttribute("value", "两次输入不一致！");
+		test.setAttribute("class", "icon into");
+	}
+}
+$("#submit").click(function (){
 	var username=document.getElementById("username").value;
-    	$.ajax({
-    		type:"post",
-    		url:'<c:url value="/user/checkName" />',
-    		data:{"username":username},
-    		success:function(data) {
-                if (data=='true1') {
-                   var test=document.getElementById("test");
-                   test.setAttribute("class", "icon into"); 
-                }
-                else {
-                	var test=document.getElementById("test");
-                    test.setAttribute("class", "icon ticker");
-                }
-    		}
-           
-        });
+	var email=document.getElementById("email").value;
+	var password=document.getElementById("password").value;
+	var password2=document.getElementById("password2").value;
+	var test=document.getElementById("test");
+	var test2=document.getElementById("test2");
+	var test3=document.getElementById("test3");
+	/* var test4=document.getElementById("test4"); */
+	if (username!=''&&email!=''&&password!=''&&password2!=''){
+		if(test.getAttribute("class")=='icon ticker'&&test2.getAttribute("class")=='icon ticker'&&test3.getAttribute("class")=='icon ticker'){
+			if(password==password2){
+				//test4.setAttribute("class", "icon ticker");
+				//document.getElementById("show").setAttribute("type", "hidden");
+				$.ajax({
+		            cache: true,
+		            type: "POST",
+		            url:'<c:url value="/user/addUser" />',
+		            data:$('#myForm').serialize(),
+		            async: false,
+		            error: function(request) {
+		                alert("Connection error");
+		            },
+		            success: function(data) {
+		            	if(data=='true'){
+		            		alert("注册成功");
+		            		window.open('success.html');
+		            	}else{
+		            		alert("注册失败");
+		            	}
+		            }
+		        });
+			}else{
+				//test4.setAttribute("class", "icon into");
+				alert("两次密码输入不一致！");
+				//document.getElementById("show").setAttribute("type", "text");
+                //document.getElementById("show").setAttribute("value", "两次密码输入不一致！");
+			}
+		}else{
+			alert("信息填写错误，请重新填写！");
+			return;
+			//window.location.href='<c:url value="register.jsp" />';
+		}
 }
-function submit(){
-	alert("dasdsa");
-	  $.post(
-			  '<c:url value="/user/addUser" />',
-            {
-             //你传的参数  把你的input框的值以post方式传送
-              username:$('#username').val(),
-              password:$('#password').val(),
-              email:$('#email').val()
-            },
-	           function(data)
-            {
-              //这里是从你请求的地址返回来的数据 具体怎么处理就看你自己的需求了
-              alert("注册成功");
-            });
-	 
-}
+});
 
 </script>
 </html>

@@ -7,5 +7,7 @@ public interface UserService {
 	User checkName(String username);
 
 	int addUser(User user);
+
+	User login(User user);
   
 }
