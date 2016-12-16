@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="clear"> </div>
 					</li>  -->
 					<li>
-						<input type="password" name="password" id="password"  placeholder="输入密码,不小于6位字母或数字" required oninvalid="setCustomValidity('密码不能为空');" onblur="loadXMLDoc2();"/>
+						<input type="password" name="password" id="password"  placeholder="输入密码,6-16位字母和数字组成" required oninvalid="setCustomValidity('密码不能为空');" onblur="loadXMLDoc2();"/>
 						<a href="javasrcipt:void(0);" id="test3" > </a>
 						<div class="clear"> </div>
 					</li> 
@@ -108,13 +108,14 @@ function loadXMLDoc1() {
 function loadXMLDoc2() {
 	var password=document.getElementById("password").value;
 	var test=document.getElementById("test3");
-	var reg = /[a-zA-Z0-9]{6,16}/; 
+	//var reg = /[a-zA-Z0-9]{6,16}/; 
+	var reg=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
 	if(reg.test(password)){
 		document.getElementById("show").setAttribute("type", "hidden");
 		test.setAttribute("class", "icon ticker");
 	}else{
 		document.getElementById("show").setAttribute("type", "text");
-		document.getElementById("show").setAttribute("value", "密码必须有数字和字母且不小于6位！");
+		document.getElementById("show").setAttribute("value", "必须包含数字和字母，且为6-16位！");
 		test.setAttribute("class", "icon into");
 	}
 }
