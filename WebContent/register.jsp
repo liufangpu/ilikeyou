@@ -159,10 +159,11 @@ $("#submit").click(function (){
 		            },
 		            success: function(data) {
 		            	if(data=='true'){
-		            		alert("注册成功");
+		            		//alert("注册成功");
 		            		window.open('success.html');
 		            	}else{
 		            		alert("注册失败");
+		            		window.location.href='register.html';
 		            	}
 		            }
 		        });
